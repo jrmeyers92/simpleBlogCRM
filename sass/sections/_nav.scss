@@ -1,0 +1,24 @@
+.nav {
+	height: 10vh;
+	width: 100%;
+	background-color: #333;
+	color: #f9f9f9;
+	font-size: 1.7rem;
+	display: flex;
+	align-items: center;
+
+	&__list {
+		list-style-type: none;
+		display: flex;
+		margin: 1rem;
+	}
+
+	&__item {
+		margin: 1rem;
+	}
+
+	&__link {
+		text-decoration: none;
+		color: #f9f9f9;
+	}
+}
