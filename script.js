@@ -1,8 +1,16 @@
 let blogPosts = [];
 let BlogPostsStore;
 let posts = JSON.parse(localStorage.getItem(BlogPostsStore));
-const addPostForm = document.getElementById("newPost__Form");
+const addPostForm = document.getElementById("newPost__form");
+const addPostSection = document.getElementById("newPost");
+const addPostButton = document.getElementById("addPostButton");
 
+let siteMetaData = {};
+let siteMetaDataStore;
+let metaData = JSON.parse(localStorage.getItem(siteMetaDataStore));
+let changeSiteMetaDataForm = document.getElementById("globalSettings__form");
+
+//iniatalize blog post when site loads.
 document.addEventListener("DOMContentLoaded", () => {
 	if (localStorage.getItem(BlogPostsStore)) {
 		displayBlogPosts(posts);
@@ -43,11 +51,11 @@ const pushArray = (object, array) => {
 // function to map blog post array into html
 const displayBlogPosts = (postss) => {
 	document.getElementById("blogPostsDiv").innerHTML = postss.map((post) => {
-		return `<div>
-                <h2>${post.blogTitle}</h2>
-                <h3>${post.blogSubTitle}</h3>
-                <p>${post.blogContent}</p>
-                <address>${post.blogAuthor}</address>
+		return `<div class="blogPost">
+                <h2 class="div blogPost__header">${post.blogTitle}</h2>
+                <h3 class="div blogPost__subHeader">${post.blogSubTitle}</h3>
+                <p class="div blogPost__para">${post.blogContent}</p>
+                <address class="div blogPost__author">${post.blogAuthor}</address>
             </div>`;
 	});
 };
@@ -62,3 +70,11 @@ if (addPostForm) {
 		displayBlogPosts(blogPosts);
 	});
 }
+
+//event listener to unhide add post form
+addPostButton.addEventListener("click", (e) => {
+	console.log("hi");
+	if (addPostSection.classList.contains("hide")) {
+		addPostSection.classList.remove("hide");
+	}
+});
