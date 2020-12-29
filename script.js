@@ -1,5 +1,15 @@
 let blogPosts = [];
+let BlogPostsStore;
+let posts = JSON.parse(localStorage.getItem(BlogPostsStore));
 const addPostForm = document.getElementById("newPost__Form");
+
+document.addEventListener("DOMContentLoaded", () => {
+	if (localStorage.getItem(BlogPostsStore)) {
+		displayBlogPosts(posts);
+		blogPosts = posts;
+		console.log(blogPosts);
+	}
+});
 
 //object contructor to create new blog object
 function BlogPost(blogTitle, blogSubTitle, blogAuthor, blogContent) {
@@ -31,8 +41,8 @@ const pushArray = (object, array) => {
 };
 
 // function to map blog post array into html
-const displayBlogPosts = () => {
-	document.getElementById("blogPostsDiv").innerHTML = blogPosts.map((post) => {
+const displayBlogPosts = (postss) => {
+	document.getElementById("blogPostsDiv").innerHTML = postss.map((post) => {
 		return `<div>
                 <h2>${post.blogTitle}</h2>
                 <h3>${post.blogSubTitle}</h3>
@@ -42,17 +52,13 @@ const displayBlogPosts = () => {
 	});
 };
 
-// function to save an onject in local storage
-const saveToLocalStorage = (obj) => {
-	localStorage.setItem(blogPosts, JSON.stringify(obj));
-};
-
 //event listener on add post form submit
 if (addPostForm) {
 	addPostForm.addEventListener("submit", (e) => {
 		e.preventDefault();
 		pushArray(createNewBlogPost(), blogPosts);
-		saveToLocalStorage(blogPosts);
-		console.log(JSON.parse(localStorage.getItem(blogPosts)));
+		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
+		console.log(localStorage.getItem(BlogPostsStore));
+		displayBlogPosts(blogPosts);
 	});
 }
