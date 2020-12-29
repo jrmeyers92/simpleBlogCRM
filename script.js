@@ -30,9 +30,29 @@ const pushArray = (object, array) => {
 	array.push(object);
 };
 
-//event listener on add post form submit
-addPostForm.addEventListener("submit", (e) => {
-	e.preventDefault();
-	pushArray(createNewBlogPost(), blogPosts);
+// function to map blog post array into html
+const displayBlogPosts = () => {
+	document.getElementById("blogPostsDiv").innerHTML = blogPosts.map((post) => {
+		return `<div>
+                <h2>${post.blogTitle}</h2>
+                <h3>${post.blogSubTitle}</h3>
+                <p>${post.blogContent}</p>
+                <address>${post.blogAuthor}</address>
+            </div>`;
+	});
+};
 
-});
+// function to save an onject in local storage
+const saveToLocalStorage = (obj) => {
+	localStorage.setItem(blogPosts, JSON.stringify(obj));
+};
+
+//event listener on add post form submit
+if (addPostForm) {
+	addPostForm.addEventListener("submit", (e) => {
+		e.preventDefault();
+		pushArray(createNewBlogPost(), blogPosts);
+		saveToLocalStorage(blogPosts);
+		console.log(JSON.parse(localStorage.getItem(blogPosts)));
+	});
+}
