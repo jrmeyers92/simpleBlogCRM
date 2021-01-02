@@ -4,6 +4,7 @@ let posts = JSON.parse(localStorage.getItem(BlogPostsStore));
 const addPostForm = document.getElementById("newPost__form");
 const addPostSection = document.getElementById("newPost");
 const addPostButton = document.getElementById("addPostButton");
+const newPostModalExitButton = document.getElementById("addPostClose");
 
 let siteMetaData = {};
 let siteMetaDataStore;
@@ -60,6 +61,20 @@ const displayBlogPosts = (postss) => {
 	});
 };
 
+//clear contents of form
+
+clearFormContents = () => {
+	const blogTitle = document.getElementById("postTitle");
+	const blogSubTitle = document.getElementById("postSubTitle");
+	const blogAuthor = document.getElementById("postAuthor");
+	const blogContent = document.getElementById("postContent");
+
+	blogTitle.value = "";
+	blogSubTitle.value = "";
+	blogAuthor.value = "";
+	blogContent.value = "";
+};
+
 //event listener on add post form submit
 if (addPostForm) {
 	addPostForm.addEventListener("submit", (e) => {
@@ -68,6 +83,7 @@ if (addPostForm) {
 		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
 		console.log(localStorage.getItem(BlogPostsStore));
 		displayBlogPosts(blogPosts);
+		clearFormContents();
 	});
 }
 
@@ -76,5 +92,11 @@ addPostButton.addEventListener("click", (e) => {
 	console.log("hi");
 	if (addPostSection.classList.contains("hide")) {
 		addPostSection.classList.remove("hide");
+	}
+});
+
+newPostModalExitButton.addEventListener("click", () => {
+	if (!addPostSection.classList.contains("hide")) {
+		addPostSection.classList.add("hide");
 	}
 });

@@ -12,6 +12,16 @@
   .btn:hover {
     background-color: #c78101; }
 
+.modal {
+  background-color: orange;
+  width: 80%; }
+  .modal__heading {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; }
+
 .center {
   text-align: center; }
 
@@ -23,10 +33,12 @@
   box-sizing: border-box; }
 
 body {
-  font-family: "Lato", sans-serif; }
+  font-family: "Lato", sans-serif;
+  position: relative; }
 
 .hide {
-  display: none; }
+  display: none;
+  visibility: hidden; }
 
 .margin-small {
   margin: 0.5rem; }
@@ -66,3 +78,11 @@ body {
   .nav__link {
     text-decoration: none;
     color: #f9f9f9; }
+
+.newPost {
+  position: absolute;
+  top: 15vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }

@@ -9,6 +9,10 @@
 			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
 			rel="stylesheet"
 		/>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+			rel="stylesheet"
+		/>
 		<link rel="stylesheet" href="./css/style.css" />
 		<script src="script.js" defer></script>
 	</head>
@@ -54,35 +58,40 @@
 		<!-- new post modal  -->
 
 		<section class="newPost hide" id="newPost">
-			<h2>Add a blog post</h2>
-			<form action="#" class="newPost__form form" id="newPost__form">
-				<div class="inputDiv">
-					<label for="postTitle" class="label">Blog Title:</label>
-					<input type="text" class="input" id="postTitle" />
+			<div class="modal">
+				<div class="modal__heading">
+					<i class="fas fa-times modal__exit" id="addPostClose"></i>
+					<h2 class="center modal__heading">Add a blog post</h2>
 				</div>
+				<form action="#" class="newPost__form form" id="newPost__form">
+					<div class="inputDiv">
+						<label for="postTitle" class="label">Blog Title:</label>
+						<input type="text" class="input" id="postTitle" />
+					</div>
 
-				<div class="inputDiv">
-					<label for="postSubTitle" class="label">Blog Sub Title:</label>
-					<input type="text" class="input" id="postSubTitle" />
-				</div>
+					<div class="inputDiv">
+						<label for="postSubTitle" class="label">Blog Sub Title:</label>
+						<input type="text" class="input" id="postSubTitle" />
+					</div>
 
-				<div class="inputDiv">
-					<label for="postAuthor" class="label">Blog Author:</label>
-					<input type="text" class="input" id="postAuthor" />
-				</div>
+					<div class="inputDiv">
+						<label for="postAuthor" class="label">Blog Author:</label>
+						<input type="text" class="input" id="postAuthor" />
+					</div>
 
-				<div class="inputDiv">
-					<label for="postContent" class="label">Blog Content:</label>
-					<textarea
-						name="postContent"
-						id="postContent"
-						cols="100"
-						rows="20"
-						class="textarea"
-					></textarea>
-				</div>
-				<button type="submit">Submit</button>
-			</form>
+					<div class="inputDiv">
+						<label for="postContent" class="label">Blog Content:</label>
+						<textarea
+							name="postContent"
+							id="postContent"
+							cols="100"
+							rows="20"
+							class="textarea"
+						></textarea>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+			</div>
 		</section>
 	</body>
 </html>
