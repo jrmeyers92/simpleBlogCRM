@@ -1,14 +1,15 @@
 .blogPost {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start; }
 
 .btn {
   border-radius: 4px;
   padding: 0.5rem;
   background-color: orange;
-  transition: all 0.2s; }
+  transition: all 0.2s;
+  cursor: pointer; }
   .btn:hover {
     background-color: #c78101; }
 
@@ -21,6 +22,9 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center; }
+  .modal__buttons {
+    display: flex;
+    flex-direction: row; }
 
 .center {
   text-align: center; }

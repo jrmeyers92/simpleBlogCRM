@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	if (localStorage.getItem(BlogPostsStore)) {
 		displayBlogPosts(posts);
 		blogPosts = posts;
-		console.log(blogPosts);
 	}
 });
 
@@ -57,6 +56,10 @@ const displayBlogPosts = (postss) => {
                 <h3 class="div blogPost__subHeader">${post.blogSubTitle}</h3>
                 <p class="div blogPost__para">${post.blogContent}</p>
                 <address class="div blogPost__author">${post.blogAuthor}</address>
+                <div class='modal__buttons'>
+                    <button class="btn">Edit</button>
+                    <button class='btn deleteBlogPostBtn'>Delete</button>
+                </div>
             </div>`;
 	});
 };
@@ -98,5 +101,37 @@ addPostButton.addEventListener("click", (e) => {
 newPostModalExitButton.addEventListener("click", () => {
 	if (!addPostSection.classList.contains("hide")) {
 		addPostSection.classList.add("hide");
+	}
+});
+
+const deleteObjectOutOfArray = (array, key) => {
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].blogTitle == key) {
+			console.log(blogTitle);
+		}
+	}
+};
+
+//event listener to delete blog post
+document.addEventListener("click", (e) => {
+	if (e.target.classList.contains("deleteBlogPostBtn")) {
+		const blogTitle =
+			e.target.parentNode.parentNode.firstChild.nextSibling.innerHTML;
+
+		let index = blogPosts.findIndex((x) => x.blogTitle == blogTitle);
+		console.log(index);
+
+		posts.splice(index, 1);
+		console.log(blogPosts);
+
+		//identify the index of the object that is being deleted
+
+		// delete object out of posts array using index and .slice()
+		// posts.slice(index, 1);
+		//set local storege to be equal to posts array
+		// localStorage.setItem(BlogPostsStore, posts);
+
+		//update ui
+		// displayBlogPosts(posts);
 	}
 });
