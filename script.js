@@ -1,6 +1,5 @@
 let blogPosts = [];
 let BlogPostsStore;
-let BlogPostsParsed = JSON.parse(localStorage.getItem(BlogPostsStore));
 const addPostForm = document.getElementById("newPost__form");
 const addPostSection = document.getElementById("newPost");
 const addPostButton = document.getElementById("addPostButton");
@@ -8,15 +7,32 @@ const newPostModalExitButton = document.getElementById("addPostClose");
 
 let siteMetaData = {};
 let siteMetaDataStore;
-let metaData = JSON.parse(localStorage.getItem(siteMetaDataStore));
+// let siteMetaDataParesed = JSON.parse(localStorage.getItem(siteMetaDataStore));
 let changeSiteMetaDataForm = document.getElementById("globalSettings__form");
 
 //iniatalize blog post when site loads.
 document.addEventListener("DOMContentLoaded", () => {
 	//if there is anything save to local storage retrieve it and use it to display blog posts.
+	if (localStorage.undefined == "[]" || localStorage.undefined == "undefined") {
+		let newPost = new BlogPost(
+			"Vail",
+			"It's a Magical Place",
+			"Jake Meyers",
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+		);
+		blogPosts.unshift(newPost);
+		saveToLocalStorage(BlogPostsStore, blogPosts);
+		displayBlogPosts(blogPosts);
+
+		return;
+	}
+
 	if (localStorage.getItem(BlogPostsStore)) {
-		displayBlogPosts(BlogPostsParsed);
-		blogPosts = BlogPostsParsed;
+		try {
+			let BlogPostsParsed = JSON.parse(localStorage.getItem(BlogPostsStore));
+			blogPosts = BlogPostsParsed;
+			displayBlogPosts(blogPosts);
+		} catch {}
 	}
 });
 
@@ -62,14 +78,38 @@ const pushArray = (object, array) => {
 	array.unshift(object);
 };
 
+//function to make strings a set amount of characters
+const shortenString = (length, string) => {
+	return string.length > length
+		? string.substr(0, length) +
+				"... " +
+				"<em class='blogPost__more'>show more<em>"
+		: string;
+};
+
+document.addEventListener("click", (e) => {
+	if (e.target.classList.contains("blogPost__more")) {
+		const para =
+			e.target.parentNode.parentNode.firstChild.nextSibling.nextSibling
+				.nextSibling.nextSibling.nextSibling;
+	}
+
+	// let index = blogPosts.findIndex((x) => x.blogTitle == blogTitle);
+});
+
 // function to map blog post array into html
 const displayBlogPosts = (posts) => {
 	document.getElementById("blogPostsDiv").innerHTML = posts.map((post) => {
 		return `<div class="blogPost">
                 <h2 class="div blogPost__header">${post.blogTitle}</h2>
                 <h3 class="div blogPost__subHeader">${post.blogSubTitle}</h3>
-                <p class="div blogPost__para">${post.blogContent}</p>
-                <address class="div blogPost__author">${post.blogAuthor}</address>
+                <p class="div blogPost__para">${shortenString(
+									100,
+									post.blogContent
+								)}</p>
+                <address class="div blogPost__author">${
+									post.blogAuthor
+								}</address>
                 <div class='modal__buttons'>
                     <i class="fas fa-trash-alt delete deleteBlogPostBtn blogPost__btn"></i>
                     <i class="fas fa-edit blogPost__btn editBlogPostBtn"></i>
@@ -109,6 +149,7 @@ if (addPostForm) {
 
 //event listener to unhide and hide add post form
 addPostButton.addEventListener("click", (e) => {
+	console.log("hi");
 	if (addPostSection.classList.contains("hide")) {
 		addPostSection.classList.remove("hide");
 	}
@@ -139,5 +180,22 @@ document.addEventListener("click", (e) => {
 		blogPosts.splice(index, 1);
 		displayBlogPosts(blogPosts);
 		saveToLocalStorage(BlogPostsStore, blogPosts);
+	}
+});
+
+document.addEventListener("click", (e) => {
+	if (e.target.classList.contains("editBlogPostBtn")) {
+		const editPostSection = document.getElementById("editPost");
+		editPostSection.innerHTML = `<div class="modal">
+            <h2>Edit</h2>
+            <div class="inputDiv">
+                <label for="editPostTitle" class="label">Edit Title:</label>
+                <input type="text" class="input" id="editPostTitle" value=${e.target.parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.textContent} disabled/>
+            </div>
+            <div class="inputDiv">
+                <label for="editPostSubTitle" class="label">Edit Subtitle:</label>
+                <input type="text" class="input" id="editPostSubTitle" value=${e.target.parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent} disabled/>
+            </div>
+        </div>`;
 	}
 });
