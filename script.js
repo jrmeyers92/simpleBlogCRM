@@ -1,6 +1,6 @@
 let blogPosts = [];
 let BlogPostsStore;
-let posts = JSON.parse(localStorage.getItem(BlogPostsStore));
+let BlogPostsParsed = JSON.parse(localStorage.getItem(BlogPostsStore));
 const addPostForm = document.getElementById("newPost__form");
 const addPostSection = document.getElementById("newPost");
 const addPostButton = document.getElementById("addPostButton");
@@ -13,13 +13,26 @@ let changeSiteMetaDataForm = document.getElementById("globalSettings__form");
 
 //iniatalize blog post when site loads.
 document.addEventListener("DOMContentLoaded", () => {
+	//if there is anything save to local storage retrieve it and use it to display blog posts.
 	if (localStorage.getItem(BlogPostsStore)) {
-		displayBlogPosts(posts);
-		blogPosts = posts;
+		displayBlogPosts(BlogPostsParsed);
+		blogPosts = BlogPostsParsed;
 	}
 });
 
-//object contructor to create new blog object
+// function to save info to local storage
+
+const saveToLocalStorage = (
+	localStorageVariable,
+	variableWithDataBeingSaved
+) => {
+	localStorage.setItem(
+		localStorageVariable,
+		JSON.stringify(variableWithDataBeingSaved)
+	);
+};
+
+//object contructor to create new blog post object
 function BlogPost(blogTitle, blogSubTitle, blogAuthor, blogContent) {
 	this.blogTitle = blogTitle;
 	this.blogSubTitle = blogSubTitle;
@@ -29,6 +42,7 @@ function BlogPost(blogTitle, blogSubTitle, blogAuthor, blogContent) {
 
 //function to create object for new blog post
 const createNewBlogPost = () => {
+	// these variables are defined here since the elements are hidden when page initially loaded.
 	const blogTitle = document.getElementById("postTitle");
 	const blogSubTitle = document.getElementById("postSubTitle");
 	const blogAuthor = document.getElementById("postAuthor");
@@ -45,27 +59,26 @@ const createNewBlogPost = () => {
 
 // function to push object to array
 const pushArray = (object, array) => {
-	array.push(object);
+	array.unshift(object);
 };
 
 // function to map blog post array into html
-const displayBlogPosts = (postss) => {
-	document.getElementById("blogPostsDiv").innerHTML = postss.map((post) => {
+const displayBlogPosts = (posts) => {
+	document.getElementById("blogPostsDiv").innerHTML = posts.map((post) => {
 		return `<div class="blogPost">
                 <h2 class="div blogPost__header">${post.blogTitle}</h2>
                 <h3 class="div blogPost__subHeader">${post.blogSubTitle}</h3>
                 <p class="div blogPost__para">${post.blogContent}</p>
                 <address class="div blogPost__author">${post.blogAuthor}</address>
                 <div class='modal__buttons'>
-                    <button class="btn">Edit</button>
-                    <button class='btn deleteBlogPostBtn'>Delete</button>
+                    <i class="fas fa-trash-alt delete deleteBlogPostBtn blogPost__btn"></i>
+                    <i class="fas fa-edit blogPost__btn editBlogPostBtn"></i>
                 </div>
             </div>`;
 	});
 };
 
 //clear contents of form
-
 clearFormContents = () => {
 	const blogTitle = document.getElementById("postTitle");
 	const blogSubTitle = document.getElementById("postSubTitle");
@@ -78,21 +91,24 @@ clearFormContents = () => {
 	blogContent.value = "";
 };
 
-//event listener on add post form submit
+//event listener for add post form submit
 if (addPostForm) {
 	addPostForm.addEventListener("submit", (e) => {
 		e.preventDefault();
+		//creates an object from form field components and pushes to array that holds post objects
 		pushArray(createNewBlogPost(), blogPosts);
+		//saves the new object to local storage
 		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
+		//displays the new blog posts in the UI
 		displayBlogPosts(blogPosts);
 		clearFormContents();
+		//closes add post modal
 		addPostSection.classList.add("hide");
 	});
 }
 
-//event listener to unhide add post form
+//event listener to unhide and hide add post form
 addPostButton.addEventListener("click", (e) => {
-	console.log("hi");
 	if (addPostSection.classList.contains("hide")) {
 		addPostSection.classList.remove("hide");
 	}
@@ -104,6 +120,7 @@ newPostModalExitButton.addEventListener("click", () => {
 	}
 });
 
+// function that deletes an object from an array -- NOT BEING USED
 const deleteObjectOutOfArray = (array, key) => {
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].blogTitle == key) {
@@ -119,10 +136,8 @@ document.addEventListener("click", (e) => {
 			e.target.parentNode.parentNode.firstChild.nextSibling.innerHTML;
 
 		let index = blogPosts.findIndex((x) => x.blogTitle == blogTitle);
-
-		posts.splice(index, 1);
+		blogPosts.splice(index, 1);
 		displayBlogPosts(blogPosts);
-		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
-		console.log(localStorage.getItem(BlogPostsStore));
+		saveToLocalStorage(BlogPostsStore, blogPosts);
 	}
 });
