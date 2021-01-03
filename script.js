@@ -84,9 +84,9 @@ if (addPostForm) {
 		e.preventDefault();
 		pushArray(createNewBlogPost(), blogPosts);
 		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
-		console.log(localStorage.getItem(BlogPostsStore));
 		displayBlogPosts(blogPosts);
 		clearFormContents();
+		addPostSection.classList.add("hide");
 	});
 }
 
@@ -119,19 +119,10 @@ document.addEventListener("click", (e) => {
 			e.target.parentNode.parentNode.firstChild.nextSibling.innerHTML;
 
 		let index = blogPosts.findIndex((x) => x.blogTitle == blogTitle);
-		console.log(index);
 
 		posts.splice(index, 1);
-		console.log(blogPosts);
-
-		//identify the index of the object that is being deleted
-
-		// delete object out of posts array using index and .slice()
-		// posts.slice(index, 1);
-		//set local storege to be equal to posts array
-		// localStorage.setItem(BlogPostsStore, posts);
-
-		//update ui
-		// displayBlogPosts(posts);
+		displayBlogPosts(blogPosts);
+		localStorage.setItem(BlogPostsStore, JSON.stringify(blogPosts));
+		console.log(localStorage.getItem(BlogPostsStore));
 	}
 });
