@@ -61,8 +61,11 @@
 		<!-- global settings modal -->
 
 		<section class="globalSettings hide" id="globalSettings">
-			<h2>Change Site Settings</h2>
-			<div class="globalSettings__div">
+			<div class="modal">
+				<div class="modal__heading">
+					<h2>Change Site Settings</h2>
+					<i class="fas fa-times modal__exit" id="addPostClose"></i>
+				</div>
 				<form
 					action="#"
 					class="globalSettings__form form"
@@ -114,15 +117,6 @@
 					<button type="submit">Submit</button>
 				</form>
 			</div>
-		</section>
-		<section class="editPost" id="editPost">
-			<h2 class="editPost__heading">Edit</h2>
-			<form action="#" class="editPostForm" id="editPostFrom">
-				<div class="inputDiv">
-					<label for="editTitleInput" class="label">Edit Title:</label>
-					<input type="text" class="input" id="editTitleInput" value=${/>
-				</div>
-			</form>
 		</section>
 	</body>
 </html>

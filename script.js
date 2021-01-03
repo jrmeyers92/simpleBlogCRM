@@ -5,8 +5,10 @@ const addPostSection = document.getElementById("newPost");
 const addPostButton = document.getElementById("addPostButton");
 const newPostModalExitButton = document.getElementById("addPostClose");
 
-let siteMetaData = {};
-let siteMetaDataStore;
+const settingsButton = document.getElementById("changeSiteSettingsButton");
+const settingsForm = document.getElementById("globalSettings__form");
+let settings = [];
+let settings;
 // let siteMetaDataParesed = JSON.parse(localStorage.getItem(siteMetaDataStore));
 let changeSiteMetaDataForm = document.getElementById("globalSettings__form");
 
@@ -183,19 +185,14 @@ document.addEventListener("click", (e) => {
 	}
 });
 
-document.addEventListener("click", (e) => {
-	if (e.target.classList.contains("editBlogPostBtn")) {
-		const editPostSection = document.getElementById("editPost");
-		editPostSection.innerHTML = `<div class="modal">
-            <h2>Edit</h2>
-            <div class="inputDiv">
-                <label for="editPostTitle" class="label">Edit Title:</label>
-                <input type="text" class="input" id="editPostTitle" value=${e.target.parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.textContent} disabled/>
-            </div>
-            <div class="inputDiv">
-                <label for="editPostSubTitle" class="label">Edit Subtitle:</label>
-                <input type="text" class="input" id="editPostSubTitle" value=${e.target.parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent} disabled/>
-            </div>
-        </div>`;
-	}
+//event listener to open site settings
+
+settingsButton.addEventListener("click", (e) => {
+	document.getElementById("globalSettings").classList.remove("hide");
+});
+
+//event listerner to for settings form submit
+
+settingsForm.addEventListener("click", (e) => {
+	e.preventDefault();
 });
